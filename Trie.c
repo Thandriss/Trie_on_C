@@ -1,29 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
-typedef struct Trie {
-    int value;
-    int counter;
-    struct Trie *list;// список детей-деревьев
-}Trie;
-
+#include "Trie_H.h"
 
 void printFromTrie(Trie trie, FILE *pIobuf) {
     fprintf(pIobuf, "%d: ",trie.value);
-    for (int i = 0; i < trie.counter; ++i) {
-        if (trie.list != NULL) {
-            fprintf(pIobuf, "%d", trie.list[i].value);
-            if (i != trie.counter - 1) {
-                fprintf(pIobuf, ", ");
-            } else {
-                fprintf(pIobuf, "\n");
+    if (trie.counter != 0) {
+        for (int i = 0; i < trie.counter; ++i) {
+            if (trie.counter != 0) {
+                fprintf(pIobuf, "%d", trie.list[i].value);
+                if (i != trie.counter - 1) {
+                    fprintf(pIobuf, ", ");
+                } else {
+                    fprintf(pIobuf, "\n");
+                }
             }
         }
+    } else {
+        fprintf(pIobuf, "\n");
     }
     for (int i = 0; i < trie.counter; ++i) {
         printFromTrie(trie.list[i], pIobuf);
-        fprintf(pIobuf, "\n");
     }
-};
+    free(trie.list);
+}
 
 Trie *findPlace(Trie *pTrie, int *pInt) {
     if (pTrie->list != NULL) {
@@ -42,7 +41,7 @@ Trie *findPlace(Trie *pTrie, int *pInt) {
         return pTrie;
     }
 }
-void add(Trie *pt, const int *pv, const int *pc) {
+void add(Trie *pt, int *pv, const int *pc) {
     pt = findPlace(pt, pv);
     Trie *child = malloc(sizeof(Trie));
     child->value = *pc;
@@ -75,7 +74,7 @@ void createTrie(char *inputFile, char *outputFile) {
         printf("Failed to open %s\n",inputFile);
         exit(1);
     }
-
+    printf("Parent-child\n");
     while (fscanf(fp, "%d-%d\n", &val, &child) == 2) {
         printf("%d-%d\n", val, child);
         add(&trie, &val, &child);
@@ -87,7 +86,6 @@ void createTrie(char *inputFile, char *outputFile) {
     for (int  i = 0;  i < trie.counter; ++ i) {
         printFromTrie(trie.list[i], fp);
     }
+    free(trie.list);
+    fclose(fp);
 }
-
-
-

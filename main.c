@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include "Trie_H.h"
 int main(int argc, char *args[]) {
-    /*if (argc != 3) {
+    if (argc != 3) {
         printf("IllegalArgumentException. InputFileName OutputFileName");
         exit(1);
-    }*/
-    createTrie("Input.txt", "Output.txt");
-   // createTrie(args[1], args[2]);
-    //return EXIT_SUCCESS;
+    }
+
+    createTrie(args[1], args[2]);
+    return EXIT_SUCCESS;
 }
