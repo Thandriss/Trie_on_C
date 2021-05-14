@@ -42,24 +42,36 @@ Trie *findPlace(Trie *pTrie, int *pInt) {
     }
 }
 void add(Trie *pt, int *pv, const int *pc) {
+    int charRoot = pt->value;
     pt = findPlace(pt, pv);
     Trie *child = malloc(sizeof(Trie));
     child->value = *pc;
     child -> counter = 0;
-    child->list = malloc(sizeof(Trie));
-    if ((void *) pt->value == NULL) {//корень
+    child->list = NULL;
+    if (*pv == charRoot || pt->list == NULL) {//корень
+        /*Trie *tt = malloc(sizeof(Trie));
+        tt->value = *pv;
+        tt -> counter = 1;
+        tt->list = malloc(tt->counter * sizeof(Trie));
+        tt -> list[tt->counter - 1] = *child;*/
+        pt -> value = *pv;
+        pt -> counter++;
+        pt -> list = realloc(pt->list, pt->counter * sizeof(Trie));
+        pt -> list[pt->counter - 1] = *child;//добавит child
+    } else if (pt->list != NULL && *pv == pt->value) {//проработать, не добавит child
+        pt -> counter++;
+        pt -> list = realloc(pt->list, pt->counter * sizeof(Trie));
+        pt -> list[pt->counter - 1] = *child;//добавит child
+    } else {
         Trie *tt = malloc(sizeof(Trie));
         tt->value = *pv;
         tt -> counter = 1;
         tt->list = malloc(tt->counter * sizeof(Trie));
         tt -> list[tt->counter - 1] = *child;
+        //pt -> value = *pv;
         pt -> counter++;
         pt -> list = realloc(pt->list, pt->counter * sizeof(Trie));
-        pt -> list[pt->counter - 1] = *tt;//добавит child
-    } else if (pt->list != NULL && (void *) pt->value != NULL) {//проработать, не добавит child
-        pt -> counter++;
-        pt -> list = realloc(pt->list, pt->counter * sizeof(Trie));
-        pt -> list[pt->counter - 1] = *child;//добавит child
+        pt -> list[pt->counter - 1] = *tt;
     }
 }
 
@@ -83,9 +95,8 @@ void createTrie(char *inputFile, char *outputFile) {
         printf("Fail to open or create %s\n",outputFile);
         exit(1);
     }
-    for (int  i = 0;  i < trie.counter; ++ i) {
-        printFromTrie(trie.list[i], fp);
-    }
+
+    printFromTrie(trie, fp);
     free(trie.list);
     fclose(fp);
 }

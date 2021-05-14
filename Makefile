@@ -7,12 +7,14 @@ MYLIBNAME= libTrie.a
 
 all: $(MYLIBNAME)
 
-#-Wno-pedantic-ms-format в попытках избежать конфликтов из-за size_t
 CFLAGS= -std=c11 -pedantic -Wall -Wextra
 
 # Включаемые файлы следует искать в каталоге "include"
 INCLUDES+= -I./include
-
+# Make должна искать файлы *.h в каталогах include и src
+vpath %.h include src
+# ..., а файлы *.c - в каталоге src
+vpath %.c src
 #создание либы и удаление мусора
 $(MYLIBNAME): $(OBJS)
 	$(AR) -rsc $@ $^
