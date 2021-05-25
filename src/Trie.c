@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Trie_H.h"
+#include "../include/Trie_H.h"
 
 void printFromTrie(Trie trie, FILE *pIobuf) {
     fprintf(pIobuf, "%d: ",trie.value);
@@ -49,11 +49,6 @@ void add(Trie *pt, int *pv, const int *pc) {
     child -> counter = 0;
     child->list = NULL;
     if (*pv == charRoot || pt->list == NULL) {//корень
-        /*Trie *tt = malloc(sizeof(Trie));
-        tt->value = *pv;
-        tt -> counter = 1;
-        tt->list = malloc(tt->counter * sizeof(Trie));
-        tt -> list[tt->counter - 1] = *child;*/
         pt -> value = *pv;
         pt -> counter++;
         pt -> list = realloc(pt->list, pt->counter * sizeof(Trie));
@@ -68,7 +63,6 @@ void add(Trie *pt, int *pv, const int *pc) {
         tt -> counter = 1;
         tt->list = malloc(tt->counter * sizeof(Trie));
         tt -> list[tt->counter - 1] = *child;
-        //pt -> value = *pv;
         pt -> counter++;
         pt -> list = realloc(pt->list, pt->counter * sizeof(Trie));
         pt -> list[pt->counter - 1] = *tt;
