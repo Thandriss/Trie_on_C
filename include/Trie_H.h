@@ -11,6 +11,4 @@ typedef struct Trie {
     struct Trie *list;// список детей-деревьев
 }Trie;
 
-void add(Trie *pt, int *pv, const int *pc);
-Trie *findPlace(Trie *pTrie, int *pInt);
 #endif //TRIE_ON_C_TRIE_H_H

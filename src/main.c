@@ -6,7 +6,6 @@ int main(int argc, char *args[]) {
         printf("IllegalArgumentException. InputFileName OutputFileName");
         exit(1);
     }
-    //createTrie("Input.txt", "Output.txt");
     createTrie(args[1], args[2]);
     return EXIT_SUCCESS;
 }

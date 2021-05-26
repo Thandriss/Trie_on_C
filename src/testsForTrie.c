@@ -7,62 +7,18 @@
 
 char* fileToString( FILE* fp ) {
     int strSize = STRING_INTIAL_SIZE;
-    char* string = (char*) malloc(strSize * sizeof(char));
+    char* str = (char*) calloc(strSize, sizeof(char));
     int i = 0;
     char c;
     while ((c = fgetc(fp)) != EOF) {
-        string[i] = c;
+        str[i] = c;
         i++;
         if ( i == strSize ) {
             strSize = strSize * 2;
-            string = realloc(string, strSize);
+            str = realloc(str, strSize);
         }
     }
-    return string;
-}
-
-void TestTrieAdd(CuTest *tc) {
-    Trie *trie;
-    trie->list = NULL;
-    trie->value = (int) NULL;
-    trie->counter = 0;
-    int par = 5;
-    int ch = 3;
-    add(trie, (int *) par, (const int *) ch);
-    Trie *oldtrie = trie;
-    trie = findPlace(trie, (int *) par);
-    if (trie->value == par) {
-        for (int i = 0; i < trie->counter; i++) {
-            if (trie->list[i].value == ch) {
-                CuAssertIntEquals_Msg(tc, "Node is created!", trie->list[i].value, ch);
-            }
-        }
-    }
-    trie = oldtrie;
-    par = 6;
-    ch = 1;
-    add(trie, (int *) par, (const int *) ch);
-    oldtrie = trie;
-    trie = findPlace(trie, (int *) par);
-    if (trie->value == par) {
-        for (int i = 0; i < trie->counter; i++) {
-            if (trie->list[i].value == ch) {
-                CuAssertIntEquals_Msg(tc, "Node is created!", trie->list[i].value, ch);
-            }
-        }
-    }
-    trie = oldtrie;
-    par = 1;
-    ch = 4;
-    add(trie, (int *) par, (const int *) ch);
-    findPlace(trie, (int *) par);
-    if (trie->value == par) {
-        for (int i = 0; i < trie->counter; i++) {
-            if (trie->list[i].value == ch) {
-                CuAssertIntEquals_Msg(tc, "Node is created!", trie->list[i].value, ch);
-            }
-        }
-    }
+    return str;
 }
 
 void TestCreateTrie(CuTest *tc){
@@ -87,11 +43,12 @@ void TestCreateTrie(CuTest *tc){
     fclose(expectedFile);
     CuAssertStrEquals(tc, expectedOutput, actualOutput);
 }
+
 CuSuite* StrUtilGetSuite() {
     //функция для кучи тестов
     printf("Tests:\n");
     CuSuite *suite = CuSuiteNew();
-    SUITE_ADD_TEST(suite, TestTrieAdd);
     SUITE_ADD_TEST(suite, TestCreateTrie);
+
     return suite;
 }

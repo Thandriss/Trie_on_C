@@ -45,9 +45,9 @@ void add(Trie *pt, int *pv, const int *pc) {
     int charRoot = pt->value;
     pt = findPlace(pt, pv);
     Trie *child = malloc(sizeof(Trie));
-    child->value = *pc;
+    child -> value = *pc;
     child -> counter = 0;
-    child->list = NULL;
+    child -> list = NULL;
     if (*pv == charRoot || pt->list == NULL) {//корень
         pt -> value = *pv;
         pt -> counter++;
@@ -59,9 +59,9 @@ void add(Trie *pt, int *pv, const int *pc) {
         pt -> list[pt->counter - 1] = *child;//добавит child
     } else {
         Trie *tt = malloc(sizeof(Trie));
-        tt->value = *pv;
+        tt -> value = *pv;
         tt -> counter = 1;
-        tt->list = malloc(tt->counter * sizeof(Trie));
+        tt -> list = malloc(tt->counter * sizeof(Trie));
         tt -> list[tt->counter - 1] = *child;
         pt -> counter++;
         pt -> list = realloc(pt->list, pt->counter * sizeof(Trie));

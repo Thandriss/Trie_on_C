@@ -14,7 +14,7 @@ static void RunAllTests(void) {//запускаем все тесты
     printf("%s\n", output->buffer);
 }
 
-
 int main(void) {
     RunAllTests();
 }
+
